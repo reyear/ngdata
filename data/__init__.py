@@ -59,3 +59,6 @@ class dataObj():
                 elif os.path.isdir(i):
                     self.getAllFile(i,files)
         return files
+
+    def cpFile(self):
+        os.system("cp -r %s %s",)
