@@ -38,7 +38,8 @@ class dataObj():
             if os.path.exists(path):
                 self.path.append(path)
             else:
-                logerr('path not exist, need cp')
+                self.cpFile(path)
+                # logerr('path not exist, need cp')
 
     def statDir(self, path):
         sum = 0
@@ -60,5 +61,11 @@ class dataObj():
                     self.getAllFile(i,files)
         return files
 
-    def cpFile(self):
-        os.system("cp -r %s %s",)
+    def cpFile(self, newpath):
+        oldpath = self.findOldPath
+        os.system("cp -r %s %s" % (oldpath, newpath))
+
+    def findOldPath(self):
+        for i in self.path:
+            if os.path.isdir(i):
+                return i
