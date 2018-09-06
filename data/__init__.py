@@ -6,6 +6,11 @@ def logerr(info):
     print(info)
     exit(1)
 
+
+def logout(info):
+    print(info)
+
+
 class dataObj():
     def __init__(self):
         self.path = []
@@ -38,8 +43,8 @@ class dataObj():
             if os.path.exists(path):
                 self.path.append(path)
             else:
-                self.cpFile(path)
-                # logerr('path not exist, need cp')
+                self.cloneFile(path)
+                self.path.append(path)
 
     def statDir(self, path):
         sum = 0
@@ -61,11 +66,12 @@ class dataObj():
                     self.getAllFile(i,files)
         return files
 
-    def cpFile(self, newpath):
-        oldpath = self.findOldPath
+    def cloneFile(self, newpath):
+        oldpath = self.findoldpath()
         os.system("cp -r %s %s" % (oldpath, newpath))
+        logout("CMD: cp -r %s %s" % (oldpath, newpath))
 
-    def findOldPath(self):
+    def findoldpath(self):
         for i in self.path:
             if os.path.isdir(i):
                 return i
