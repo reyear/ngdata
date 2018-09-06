@@ -12,9 +12,11 @@ def logout(info):
 
 
 class dataObj():
-    def __init__(self):
+    def __init__(self,id='temp.txt'):
         self.path = []
         self.size = 0
+        self.dataSource = '.'
+        self.id = id
 
     def checkAttr(self):
         if hasattr(self, 'path'):
@@ -29,13 +31,17 @@ class dataObj():
                     else:
                         self.size = DirSize
 
+    # save dataobj
     def archive(self):
         tmpdata = {}
         for i in ['path', 'size', 'pid']:
             if hasattr(self,i) :
                 tmpdata[i] = getattr(self, i)
-        print(json.dumps(tmpdata, sort_keys=True, indent=4, separators=(',', ': ')))
 
+        with open(os.path.join(self.dataSource, self.id + ".json"), 'w') as f:
+            f.write(json.dumps(tmpdata, sort_keys=True, indent=4, separators=(',', ': ')))
+
+    # clone path
     def addPath(self, path):
         if path in self.path:
             logerr('Err: exist path: %s' % path)
@@ -46,6 +52,7 @@ class dataObj():
                 self.cloneFile(path)
                 self.path.append(path)
 
+    # stat dir size
     def statDir(self, path):
         sum = 0
         if os.path.isdir(path):
